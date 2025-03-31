@@ -1,0 +1,1609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mwuseuwm - Digital Art NFT Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Base Styles */
+        :root {
+            --primary-bg: #0a0a0a;
+            --secondary-bg: #121212;
+            --card-bg: #1a1a1a;
+            --accent-color: #6e56cf;
+            --accent-gradient: linear-gradient(135deg, #6e56cf, #e94c89);
+            --accent-secondary: #e94c89;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-tertiary: rgba(255, 255, 255, 0.5);
+            --success-color: #00d172;
+            --warning-color: #ffb800;
+            --error-color: #ff4d4d;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --border-radius: 12px;
+            --glow: 0 0 20px rgba(110, 86, 207, 0.4);
+            --cursor-color: rgba(255, 255, 255, 0.7);
+        }
+
+        :root[data-theme="light"] {
+            --primary-bg: #ffffff;
+            --secondary-bg: #f5f5f5;
+            --card-bg: #ffffff;
+            --text-primary: #000000;
+            --text-secondary: rgba(0, 0, 0, 0.7);
+            --text-tertiary: rgba(0, 0, 0, 0.5);
+            --border-color: rgba(0, 0, 0, 0.1);
+            --glow: 0 0 20px rgba(110, 86, 207, 0.2);
+            --cursor-color: rgba(0, 0, 0, 0.7);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+        }
+
+        section {
+            padding: 6rem 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .section-header p {
+            max-width: 700px;
+            margin: 0 auto;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* Navigation */
+        .nav-wrapper {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--accent-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: var(--transition);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-gradient);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .connect-wallet {
+            padding: 0.8rem 1.5rem;
+            background: var(--accent-gradient);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .connect-wallet:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--glow);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-primary);
+        }
+
+        /* Coming Soon Overlay */
+        .coming-soon-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 10, 0.7);
+            backdrop-filter: blur(15px);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        :root[data-theme="light"] .coming-soon-overlay {
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        .coming-soon-container {
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            padding: 2rem;
+            position: relative;
+            z-index: 10;
+            background: rgba(26, 26, 26, 0.5);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--glow);
+            display: flex;
+            flex-direction: column;
+        }
+
+        :root[data-theme="light"] .coming-soon-container {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .coming-soon-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(-20px);
+            animation: logoFadeIn 0.8s ease 0.8s forwards;
+        }
+
+        .coming-soon-logo .logo-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--accent-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: white;
+            animation: logoRotate 12s linear infinite, logoPulse 3s ease-in-out infinite;
+        }
+
+        .coming-soon-logo .logo-text {
+            font-family: 'Syne', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 1px;
+        }
+
+        @keyframes logoFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes logoRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes logoPulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 rgba(110, 86, 207, 0.4); }
+            50% { transform: scale(1.1); box-shadow: 0 0 20px rgba(110, 86, 207, 0.6); }
+            100% { transform: scale(1); box-shadow: 0 0 0 rgba(110, 86, 207, 0.4); }
+        }
+
+        .coming-soon-overlay h2 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            opacity: 0;
+            transform: translateY(-20px);
+            animation: titleFadeIn 0.8s ease 0.6s forwards;
+        }
+
+        @keyframes titleFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .coming-soon-overlay p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: var(--text-secondary);
+            opacity: 0;
+            transform: translateY(-15px);
+            animation: textFadeIn 0.8s ease 0.9s forwards;
+        }
+
+        @keyframes textFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .countdown-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .countdown-item:nth-child(1) { animation: itemFadeIn 0.6s ease 1.2s forwards; }
+        .countdown-item:nth-child(2) { animation: itemFadeIn 0.6s ease 1.4s forwards; }
+        .countdown-item:nth-child(3) { animation: itemFadeIn 0.6s ease 1.6s forwards; }
+        .countdown-item:nth-child(4) { animation: itemFadeIn 0.6s ease 1.8s forwards; }
+
+        @keyframes itemFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .contact-address {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: rgba(110, 86, 207, 0.2);
+            border: 1px solid var(--accent-color);
+            border-radius: var(--border-radius);
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(15px);
+            animation: addressFadeIn 0.6s ease 2s forwards;
+        }
+
+        @keyframes addressFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .social-links {
+            opacity: 0;
+            transform: translateY(15px);
+            animation: socialFadeIn 0.6s ease 2.2s forwards;
+        }
+
+        @keyframes socialFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Tab System */
+        .tab-container {
+            position: relative;
+            margin-bottom: 1rem;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            min-height: 0;
+        }
+
+        .tab-buttons {
+            display: flex;
+            position: relative;
+            z-index: 2;
+            margin-bottom: 1rem;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 1rem;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tab-btn::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--border-color);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateX(-50%);
+        }
+
+        .tab-btn.active::after {
+            width: 100%;
+            background: var(--accent-gradient);
+            height: 3px;
+            box-shadow: 0 0 10px rgba(110, 86, 207, 0.4);
+        }
+
+        .tab-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.7s ease;
+        }
+
+        .tab-btn:hover::before {
+            left: 100%;
+        }
+
+        .tab-btn.active {
+            color: var(--text-primary);
+        }
+
+        .tab-btn:hover::after {
+            background: var(--border-color);
+            width: 0;
+        }
+
+        .tab-btn.active:hover::after {
+            background: var(--accent-gradient);
+            width: 100%;
+        }
+
+        .tab-content {
+            display: none;
+            overflow-y: auto;
+            max-height: 50vh;
+            padding-right: 10px;
+            opacity: 0;
+            transform: translateX(20px);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .tab-content.active {
+            display: block;
+            opacity: 1;
+            transform: translateX(0);
+            animation: tabFadeIn 0.5s ease forwards;
+        }
+
+        @keyframes tabFadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Scrollbar Styling */
+        .tab-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .tab-content::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 3px;
+        }
+
+        .tab-content::-webkit-scrollbar-thumb {
+            background: var(--accent-color);
+            border-radius: 3px;
+        }
+
+        .tab-content::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-secondary);
+        }
+
+        .tab-content::-webkit-scrollbar-thumb:active {
+            background: var(--accent-color);
+        }
+
+        .countdown-timer {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .countdown-value {
+            font-size: 3rem;
+            font-weight: 700;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            min-width: 80px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .countdown-value:hover {
+            transform: scale(1.1);
+        }
+
+        /* Removing tooltip styles */
+        .countdown-value::after {
+            display: none;
+        }
+
+        .countdown-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Phases Tab Content */
+        .phases-info {
+            margin: 0;
+            padding-bottom: 1rem;
+        }
+
+        .current-phase {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .phase-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--accent-gradient);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+
+        .current-phase p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin: 0.5rem 0 1.5rem;
+        }
+
+        .phase-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .phase-timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 15px;
+            width: 2px;
+            height: 100%;
+            background: var(--border-color);
+            z-index: 1;
+        }
+
+        .phase-item {
+            position: relative;
+            z-index: 2;
+        }
+
+        .phase-dot {
+            position: absolute;
+            left: -30px;
+            top: 0;
+            width: 16px;
+            height: 16px;
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .phase-dot::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: var(--accent-gradient);
+            opacity: 0;
+            animation: pulseDot 2s infinite;
+        }
+
+        @keyframes pulseDot {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.5;
+            }
+            70% {
+                transform: translate(-50%, -50%) scale(2);
+                opacity: 0;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0;
+            }
+        }
+
+        .phase-item.active .phase-dot {
+            background: var(--accent-gradient);
+            border-color: transparent;
+            box-shadow: var(--glow);
+        }
+
+        .phase-content {
+            background: rgba(26, 26, 26, 0.5);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .phase-item.active .phase-content {
+            border-color: var(--accent-color);
+            box-shadow: var(--glow);
+        }
+
+        .phase-content:hover {
+            transform: rotateX(5deg) rotateY(5deg);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            border-color: var(--accent-color);
+        }
+
+        .phase-content h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .phase-date {
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+            font-weight: normal;
+        }
+
+        .phase-content ul {
+            list-style: none;
+            margin: 1rem 0 0;
+        }
+
+        .phase-content ul li {
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            position: relative;
+            padding-left: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .phase-content ul li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--accent-color);
+        }
+
+        /* Social Links */
+        .coming-soon-overlay .social-links {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .coming-soon-overlay .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: all 0.3s ease !important;
+            border: 1px solid var(--border-color);
+        }
+
+        .coming-soon-overlay .social-links a:hover {
+            transform: rotate(360deg) translateY(-3px) !important;
+        }
+
+        .pump-fun-btn {
+            width: 40px !important;
+            height: 40px !important;
+            padding: 8px !important;
+            background: var(--card-bg) !important;
+            border: 1px solid var(--border-color) !important;
+            border-radius: 50% !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .pump-logo {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .pump-fun-btn:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent-color) !important;
+            box-shadow: var(--glow);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .countdown-timer {
+                gap: 1rem;
+            }
+            
+            .countdown-value {
+                font-size: 2rem;
+                min-width: 60px;
+            }
+            
+            .coming-soon-container {
+                width: 90%;
+                padding: 1.5rem;
+            }
+            
+            .coming-soon-overlay h2 {
+                font-size: 2.5rem;
+            }
+            
+            .coming-soon-overlay p {
+                font-size: 1rem;
+                margin-bottom: 2rem;
+            }
+
+            .tab-content {
+                max-height: 40vh;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .countdown-timer {
+                flex-wrap: wrap;
+            }
+            
+            .countdown-item {
+                width: 45%;
+                margin-bottom: 1rem;
+            }
+        }
+
+        /* Utility Buttons Styles */
+        .utility-buttons {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 1rem;
+            z-index: 2001;
+        }
+
+        .theme-toggle,
+        .lang-toggle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover,
+        .lang-toggle:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--glow);
+        }
+
+        .current-lang {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* Notification System */
+        .notification-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+
+        .notification {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            margin-bottom: 10px;
+            min-width: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            animation: slideIn 0.3s ease forwards;
+            box-shadow: var(--glow);
+        }
+
+        .notification.success {
+            border-color: var(--success-color);
+        }
+
+        .notification.error {
+            border-color: var(--error-color);
+        }
+
+        .notification.warning {
+            border-color: var(--warning-color);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Newsletter Form */
+        .newsletter-form {
+            margin-top: 2rem;
+            display: flex;
+            gap: 1rem;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            font-family: inherit;
+        }
+
+        .newsletter-form input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: var(--glow);
+        }
+
+        .subscribe-btn {
+            padding: 0.8rem 1.5rem;
+            background: var(--accent-gradient);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .subscribe-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--glow);
+        }
+
+        /* Özel İmleç Stilleri */
+        .custom-cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--cursor-color);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.2s ease;
+            backdrop-filter: invert(1);
+        }
+
+        .custom-cursor-follower {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-gradient);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s ease;
+        }
+
+        /* Tıklanabilir öğeler için imleç efekti */
+        a, button, .countdown-value, .phase-content, .tab-btn {
+            cursor: none;
+        }
+
+        a:hover ~ .custom-cursor,
+        button:hover ~ .custom-cursor,
+        .countdown-value:hover ~ .custom-cursor,
+        .phase-content:hover ~ .custom-cursor,
+        .tab-btn:hover ~ .custom-cursor {
+            transform: scale(1.5);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <div class="nav-wrapper">
+        <nav>
+            <a href="#" class="logo">
+                <div class="logo-icon"><i class="fas fa-palette"></i></div>
+                Mwuseuwm
+            </a>
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#gallery">Gallery</a>
+                <a href="#how-it-works">How it Works</a>
+                <a href="#roadmap">Roadmap</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <button class="connect-wallet">
+                <i class="fas fa-wallet"></i> Connect Wallet
+            </button>
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
+    </div>
+
+    <!-- Theme Switcher and Language Selector -->
+    <div class="utility-buttons">
+        <button class="theme-toggle" id="themeToggle">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="lang-toggle" id="langToggle">
+            <span class="current-lang">EN</span>
+        </button>
+    </div>
+
+    <!-- Coming Soon Overlay -->
+    <div class="coming-soon-overlay">
+        <div class="floating-colors">
+            <div class="color-blob"></div>
+            <div class="color-blob"></div>
+            <div class="color-blob"></div>
+            <div class="color-blob"></div>
+        </div>
+        
+        <div class="coming-soon-container">
+            <div class="coming-soon-logo">
+                <div class="logo-icon">
+                    <i class="fas fa-palette"></i>
+                </div>
+                <div class="logo-text">Mwuseuwm</div>
+            </div>
+            <h2>Coming Soon</h2>
+            <p>Mwuseuwm is launching on May 2, 2025</p>
+            
+            <!-- Tab System -->
+            <div class="tab-container">
+                <div class="tab-buttons">
+                    <button class="tab-btn active" data-tab="countdown">Countdown</button>
+                    <button class="tab-btn" data-tab="phases">Roadmap</button>
+                </div>
+                
+                <!-- Countdown Tab -->
+                <div class="tab-content active" id="countdown-tab">
+                    <div class="countdown-timer">
+                        <div class="countdown-item">
+                            <div class="countdown-value" id="countdown-days">00</div>
+                            <div class="countdown-label">Days</div>
+                        </div>
+                        <div class="countdown-item">
+                            <div class="countdown-value" id="countdown-hours">00</div>
+                            <div class="countdown-label">Hours</div>
+                        </div>
+                        <div class="countdown-item">
+                            <div class="countdown-value" id="countdown-minutes">00</div>
+                            <div class="countdown-label">Minutes</div>
+                        </div>
+                        <div class="countdown-item">
+                            <div class="countdown-value" id="countdown-seconds">00</div>
+                            <div class="countdown-label">Seconds</div>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-address">
+                        Contract address coming soon
+                    </div>
+                </div>
+                
+                <!-- Phases Tab -->
+                <div class="tab-content" id="phases-tab">
+                    <div class="phases-info">
+                        <div class="current-phase">
+                            <span class="phase-badge">Current: Phase 1</span>
+                            <p>Platform Development & Community Building</p>
+                        </div>
+                        
+                        <div class="phase-timeline">
+                            <div class="phase-item active">
+                                <span class="phase-dot"></span>
+                                <div class="phase-content">
+                                    <h4>Phase 1: Foundation</h4>
+                                    <ul>
+                                        <li>Platform architecture & UI/UX development</li>
+                                        <li>Smart contract development & security audits</li>
+                                        <li>Community building & artist partnerships</li>
+                                        <li>Initial marketing & brand awareness</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="phase-item">
+                                <span class="phase-dot"></span>
+                                <div class="phase-content">
+                                    <h4>Phase 2: NFT Marketplace</h4>
+                                    <ul>
+                                        <li>Launch of voting system for art curation</li>
+                                        <li>NFT minting functionality implementation</li>
+                                        <li>Artist royalty system integration</li>
+                                        <li>Secondary market development</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="phase-item">
+                                <span class="phase-dot"></span>
+                                <div class="phase-content">
+                                    <h4>Phase 3: Governance</h4>
+                                    <ul>
+                                        <li>Community governance implementation</li>
+                                        <li>DAO structure development</li>
+                                        <li>Voting mechanisms for platform decisions</li>
+                                        <li>Enhanced artist tools & analytics</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="phase-item">
+                                <span class="phase-dot"></span>
+                                <div class="phase-content">
+                                    <h4>Phase 4: Expansion</h4>
+                                    <ul>
+                                        <li>Token launch & tokenomics implementation</li>
+                                        <li>Cross-chain integration & partnerships</li>
+                                        <li>Advanced features & platform scaling</li>
+                                        <li>Global marketing & ecosystem expansion</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="social-links">
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="https://pump.fun/board" class="pump-fun-btn">
+                    <img src="https://upload.wikimedia.org/wikipedia/en/b/bd/Pump_fun_logo.png" alt="Pump.fun" class="pump-logo">
+                </a>
+                <a href="#"><i class="fab fa-telegram"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification System -->
+    <div class="notification-container" id="notificationContainer"></div>
+
+    <!-- Newsletter Form -->
+    <div class="newsletter-form">
+        <input type="email" placeholder="E-posta adresiniz" id="newsletterEmail">
+        <button class="subscribe-btn">Abone Ol</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab switching functionality
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const tabId = button.getAttribute('data-tab');
+                    
+                    // Remove active class from all buttons and contents
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Add active class to clicked button and corresponding content
+                    button.classList.add('active');
+                    document.getElementById(`${tabId}-tab`).classList.add('active');
+                });
+            });
+
+            // Özel imleç elementlerini oluştur
+            const cursor = document.createElement('div');
+            const cursorFollower = document.createElement('div');
+            cursor.className = 'custom-cursor';
+            cursorFollower.className = 'custom-cursor-follower';
+            document.body.appendChild(cursor);
+            document.body.appendChild(cursorFollower);
+
+            // İmleç hareketini takip et
+            document.addEventListener('mousemove', (e) => {
+                cursor.style.left = e.clientX - cursor.offsetWidth / 2 + 'px';
+                cursor.style.top = e.clientY - cursor.offsetHeight / 2 + 'px';
+                
+                cursorFollower.style.left = e.clientX - cursorFollower.offsetWidth / 2 + 'px';
+                cursorFollower.style.top = e.clientY - cursorFollower.offsetHeight / 2 + 'px';
+            });
+
+            // Tıklama efekti
+            document.addEventListener('mousedown', () => {
+                cursor.style.transform = 'scale(0.8)';
+                cursorFollower.style.transform = 'scale(0.5)';
+            });
+
+            document.addEventListener('mouseup', () => {
+                cursor.style.transform = 'scale(1)';
+                cursorFollower.style.transform = 'scale(1)';
+            });
+
+            // Sayfa dışına çıkıldığında imleci gizle
+            document.addEventListener('mouseleave', () => {
+                cursor.style.display = 'none';
+                cursorFollower.style.display = 'none';
+            });
+
+            document.addEventListener('mouseenter', () => {
+                cursor.style.display = 'block';
+                cursorFollower.style.display = 'block';
+            });
+        });
+
+        // Theme Switcher
+        const themeToggle = document.getElementById('themeToggle');
+        const root = document.documentElement;
+        const icon = themeToggle.querySelector('i');
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = root.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            root.setAttribute('data-theme', newTheme);
+            
+            // Update icon
+            icon.className = newTheme === 'light' ? 'fas fa-sun' : 'fas fa-moon';
+            
+            // Save preference
+            localStorage.setItem('theme', newTheme);
+        });
+
+        // Language Switcher
+        const langToggle = document.getElementById('langToggle');
+        const langText = langToggle.querySelector('.current-lang');
+
+        const translations = {
+            en: {
+                countdown: "Countdown",
+                roadmap: "Roadmap",
+                comingSoon: "Coming Soon",
+                days: "Days",
+                hours: "Hours",
+                minutes: "Minutes",
+                seconds: "Seconds",
+                contractAddress: "Contract address coming soon",
+                currentPhase: "Current: Phase",
+                platformDev: "Platform Development & Community Building",
+                phase1Title: "Phase 1: Foundation",
+                phase2Title: "Phase 2: NFT Marketplace",
+                phase3Title: "Phase 3: Governance",
+                phase4Title: "Phase 4: Expansion",
+                phase1Items: [
+                    "Platform architecture & UI/UX development",
+                    "Smart contract development & security audits",
+                    "Community building & artist partnerships",
+                    "Initial marketing & brand awareness"
+                ],
+                phase2Items: [
+                    "Launch of voting system for art curation",
+                    "NFT minting functionality implementation",
+                    "Artist royalty system integration",
+                    "Secondary market development"
+                ],
+                phase3Items: [
+                    "Community governance implementation",
+                    "DAO structure development",
+                    "Voting mechanisms for platform decisions",
+                    "Enhanced artist tools & analytics"
+                ],
+                phase4Items: [
+                    "Token launch & tokenomics implementation",
+                    "Cross-chain integration & partnerships",
+                    "Advanced features & platform scaling",
+                    "Global marketing & ecosystem expansion"
+                ],
+                wereLive: "We're Live!",
+                launchMessage: "Mwuseuwm has officially launched. Explore the platform now.",
+                enterPlatform: "Enter Platform"
+            },
+            tr: {
+                countdown: "Geri Sayım",
+                roadmap: "Yol Haritası",
+                comingSoon: "Çok Yakında",
+                days: "Gün",
+                hours: "Saat",
+                minutes: "Dakika",
+                seconds: "Saniye",
+                contractAddress: "Kontrat adresi çok yakında",
+                currentPhase: "Mevcut: Faz",
+                platformDev: "Platform Geliştirme ve Topluluk Oluşturma",
+                phase1Title: "Faz 1: Temel",
+                phase2Title: "Faz 2: NFT Pazaryeri",
+                phase3Title: "Faz 3: Yönetişim",
+                phase4Title: "Faz 4: Genişleme",
+                phase1Items: [
+                    "Platform mimarisi ve UI/UX geliştirme",
+                    "Akıllı kontrat geliştirme ve güvenlik denetimleri",
+                    "Topluluk oluşturma ve sanatçı ortaklıkları",
+                    "İlk pazarlama ve marka bilinirliği"
+                ],
+                phase2Items: [
+                    "Sanat kürasyon oylama sisteminin lansmanı",
+                    "NFT basım işlevselliğinin uygulanması",
+                    "Sanatçı telif sistemi entegrasyonu",
+                    "İkincil pazar geliştirme"
+                ],
+                phase3Items: [
+                    "Topluluk yönetişimi uygulaması",
+                    "DAO yapısı geliştirme",
+                    "Platform kararları için oylama mekanizmaları",
+                    "Gelişmiş sanatçı araçları ve analizler"
+                ],
+                phase4Items: [
+                    "Token lansmanı ve tokenomics uygulaması",
+                    "Çoklu zincir entegrasyonu ve ortaklıklar",
+                    "Gelişmiş özellikler ve platform ölçeklendirme",
+                    "Global pazarlama ve ekosistem genişlemesi"
+                ],
+                wereLive: "Yayındayız!",
+                launchMessage: "Mwuseuwm resmi olarak yayında. Platformu şimdi keşfedin.",
+                enterPlatform: "Platforma Gir"
+            },
+            es: {
+                countdown: "Cuenta Atrás",
+                roadmap: "Hoja de Ruta",
+                comingSoon: "Próximamente",
+                days: "Días",
+                hours: "Horas",
+                minutes: "Minutos",
+                seconds: "Segundos",
+                contractAddress: "Dirección del contrato próximamente",
+                currentPhase: "Actual: Fase",
+                platformDev: "Desarrollo de Plataforma y Construcción de Comunidad",
+                phase1Title: "Fase 1: Fundamento",
+                phase2Title: "Fase 2: Mercado de NFT",
+                phase3Title: "Fase 3: Gobernanza",
+                phase4Title: "Fase 4: Expansión",
+                phase1Items: [
+                    "Desarrollo de la arquitectura de la plataforma y la interfaz de usuario",
+                    "Desarrollo del contrato inteligente y auditorías de seguridad",
+                    "Construcción de la comunidad y colaboraciones con artistas",
+                    "Marketing inicial y conocimiento de la marca"
+                ],
+                phase2Items: [
+                    "Lanzamiento del sistema de votación para la curación de arte",
+                    "Implementación de la funcionalidad de creación de NFT",
+                    "Integración del sistema de royalties del artista",
+                    "Desarrollo del mercado secundario"
+                ],
+                phase3Items: [
+                    "Implementación de la gobernanza de la comunidad",
+                    "Desarrollo de la estructura de DAO",
+                    "Mecanismos de votación para decisiones de la plataforma",
+                    "Herramientas y análisis avanzados para artistas"
+                ],
+                phase4Items: [
+                    "Lanzamiento del token y su implementación de economía de tokens",
+                    "Integración y colaboraciones entre cadenas",
+                    "Características avanzadas y escalado de la plataforma",
+                    "Marketing global y expansión del ecosistema"
+                ],
+                wereLive: "¡Estamos en vivo!",
+                launchMessage: "Mwuseuwm ha sido lanzado oficialmente. Explora la plataforma ahora.",
+                enterPlatform: "Entrar a la Plataforma"
+            },
+            fr: {
+                countdown: "Compte à Rebours",
+                roadmap: "Feuille de Route",
+                comingSoon: "Bientôt Disponible",
+                days: "Jours",
+                hours: "Heures",
+                minutes: "Minutes",
+                seconds: "Secondes",
+                contractAddress: "Adresse du contrat bientôt disponible",
+                currentPhase: "Actuel: Phase",
+                platformDev: "Développement de Plateforme et Construction de Communauté",
+                phase1Title: "Phase 1: Fondation",
+                phase2Title: "Phase 2: Marché NFT",
+                phase3Title: "Phase 3: Gouvernance",
+                phase4Title: "Phase 4: Expansion",
+                phase1Items: [
+                    "Développement de l'architecture de la plateforme et de l'interface utilisateur",
+                    "Développement du contrat intelligent et audits de sécurité",
+                    "Construction de la communauté et collaborations avec les artistes",
+                    "Marketing initial et connaissance de la marque"
+                ],
+                phase2Items: [
+                    "Lancement du système de vote pour la curation d'art",
+                    "Implémentation de la fonctionnalité de création de NFT",
+                    "Intégration du système de royalties de l'artiste",
+                    "Développement du marché secondaire"
+                ],
+                phase3Items: [
+                    "Implémentation de la gouvernance de la communauté",
+                    "Développement de la structure de DAO",
+                    "Mécanismes de vote pour les décisions de la plateforme",
+                    "Outils et analyses avancés pour les artistes"
+                ],
+                phase4Items: [
+                    "Lancement du token et son implémentation de l'économie des tokens",
+                    "Intégration et collaborations entre chaînes",
+                    "Fonctionnalités avancées et mise à l'échelle de la plateforme",
+                    "Marketing global et expansion de l'écosystème"
+                ],
+                wereLive: "Nous sommes en direct !",
+                launchMessage: "Mwuseuwm est lancé officiellement. Explorez la plateforme maintenant.",
+                enterPlatform: "Entrer dans la Plateforme"
+            },
+            de: {
+                countdown: "Countdown",
+                roadmap: "Fahrplan",
+                comingSoon: "Demnächst",
+                days: "Tage",
+                hours: "Stunden",
+                minutes: "Minuten",
+                seconds: "Sekunden",
+                contractAddress: "Vertragsadresse in Kürze verfügbar",
+                currentPhase: "Aktuell: Phase",
+                platformDev: "Plattformentwicklung und Gemeinschaftsbildung",
+                phase1Title: "Phase 1: Grundlage",
+                phase2Title: "Phase 2: NFT-Marktplatz",
+                phase3Title: "Phase 3: Regelung",
+                phase4Title: "Phase 4: Expansion",
+                phase1Items: [
+                    "Plattformarchitektur und UI/UX-Entwicklung",
+                    "Smart-Contract-Entwicklung und Sicherheitsaudits",
+                    "Gemeinschaftsbildung und Künstlerpartnerschaften",
+                    "Initiales Marketing und Markenbewusstsein"
+                ],
+                phase2Items: [
+                    "Start des Voting-Systems für die Kunstkuratierung",
+                    "Implementierung der NFT-Minting-Funktionalität",
+                    "Integration des Künstler-Royalty-Systems",
+                    "Sekundärmarktentwicklung"
+                ],
+                phase3Items: [
+                    "Gemeinschaftsregelungsimplementierung",
+                    "DAO-Strukturentwicklung",
+                    "Stimmungsmechanismen für Plattformentscheidungen",
+                    "Verbesserte Künstlerwerkzeuge und Analysen"
+                ],
+                phase4Items: [
+                    "Tokenstart und Tokenomics-Implementierung",
+                    "Kreuzkettenintegration und Partnerschaften",
+                    "Erweiterte Funktionen und Plattformskalierung",
+                    "Globales Marketing und Ecosystem-Expansion"
+                ],
+                wereLive: "Wir sind Live!",
+                launchMessage: "Mwuseuwm ist offiziell veröffentlicht. Erkunden Sie die Plattform jetzt.",
+                enterPlatform: "In die Plattform einsteigen"
+            },
+            zh: {
+                countdown: "倒计时",
+                roadmap: "路线图",
+                comingSoon: "即将推出",
+                days: "天",
+                hours: "小时",
+                minutes: "分钟",
+                seconds: "秒",
+                contractAddress: "合约地址即将推出",
+                currentPhase: "当前：阶段",
+                platformDev: "平台开发和社区建设",
+                phase1Title: "阶段1：基础",
+                phase2Title: "阶段2：NFT市场",
+                phase3Title: "阶段3：治理",
+                phase4Title: "阶段4：扩展",
+                phase1Items: [
+                    "平台架构和UI/UX开发",
+                    "智能合约开发和安全审计",
+                    "社区建设和艺术家合作",
+                    "初始营销和品牌意识"
+                ],
+                phase2Items: [
+                    "艺术品策展投票系统的启动",
+                    "NFT铸造功能实现",
+                    "艺术家版权系统集成",
+                    "二级市场开发"
+                ],
+                phase3Items: [
+                    "社区治理实施",
+                    "DAO结构开发",
+                    "平台决策投票机制",
+                    "增强艺术家工具和分析"
+                ],
+                phase4Items: [
+                    "代币启动和代币经济学实现",
+                    "跨链集成和合作伙伴关系",
+                    "高级功能和平台扩展",
+                    "全球营销和生态系统扩展"
+                ],
+                wereLive: "我们正在直播！",
+                launchMessage: "Mwuseuwm已正式上线。现在探索平台。",
+                enterPlatform: "进入平台"
+            }
+        };
+
+        langToggle.addEventListener('click', () => {
+            const currentLang = langText.textContent.toLowerCase();
+            const languages = ['en', 'tr', 'es', 'fr', 'de', 'zh'];
+            const currentIndex = languages.indexOf(currentLang);
+            const nextIndex = (currentIndex + 1) % languages.length;
+            const newLang = languages[nextIndex];
+            
+            langText.textContent = newLang.toUpperCase();
+            updateContent(newLang);
+            localStorage.setItem('lang', newLang);
+        });
+
+        function updateContent(lang) {
+            const t = translations[lang];
+            
+            // Update tab buttons and basic content
+            document.querySelector('[data-tab="countdown"]').textContent = t.countdown;
+            document.querySelector('[data-tab="phases"]').textContent = t.roadmap;
+            document.querySelector('.coming-soon-overlay h2').textContent = t.comingSoon;
+            document.querySelector('.contact-address').textContent = t.contractAddress;
+            
+            // Update countdown labels
+            document.querySelectorAll('.countdown-label').forEach((label, index) => {
+                const keys = ['days', 'hours', 'minutes', 'seconds'];
+                label.textContent = t[keys[index]];
+            });
+            
+            // Update roadmap content
+            document.querySelector('.phase-badge').textContent = `${t.currentPhase} 1`;
+            document.querySelector('.current-phase p').textContent = t.platformDev;
+            
+            // Update phase titles and items
+            const phaseItems = document.querySelectorAll('.phase-item');
+            phaseItems.forEach((item, index) => {
+                const phaseNum = index + 1;
+                const titleKey = `phase${phaseNum}Title`;
+                const itemsKey = `phase${phaseNum}Items`;
+                
+                item.querySelector('h4').textContent = t[titleKey];
+                const ul = item.querySelector('ul');
+                ul.innerHTML = t[itemsKey].map(text => `<li>${text}</li>`).join('');
+            });
+        }
+
+        // Update countdown finish message
+        function updateLaunchMessage(lang) {
+            const t = translations[lang];
+            return `
+                <div class="coming-soon-container">
+                    <h2>${t.wereLive}</h2>
+                    <p>${t.launchMessage}</p>
+                    <a href="#" class="btn btn-primary">${t.enterPlatform}</a>
+                </div>
+            `;
+        }
+
+        // Notification System
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <p>${message}</p>
+                <button onclick="this.parentElement.remove()">×</button>
+            `;
+            document.getElementById('notificationContainer').appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 5000);
+        }
+
+        // Newsletter Form
+        const newsletterForm = document.querySelector('.newsletter-form');
+        const emailInput = document.getElementById('newsletterEmail');
+
+        newsletterForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = emailInput.value;
+            
+            if (email && email.includes('@')) {
+                // Burada API çağrısı yapılabilir
+                showNotification('Newsletter kaydınız başarıyla tamamlandı!');
+                emailInput.value = '';
+            } else {
+                showNotification('Lütfen geçerli bir e-posta adresi girin.', 'error');
+            }
+        });
+    </script>
+    <script src="js/countdown.js"></script>
+</body>
+</html>
