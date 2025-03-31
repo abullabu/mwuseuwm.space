@@ -388,3 +388,30 @@ section {
     }
 }
 
+.construction-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: var(--transition);
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.construction-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.construction-link i {
+    color: var(--warning-color);
+    font-size: 1.2rem;
+}
+
+.construction-link span {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
