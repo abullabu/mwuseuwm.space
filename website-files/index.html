@@ -1002,6 +1002,35 @@
         .tab-btn:hover ~ .custom-cursor {
             transform: scale(1.5);
         }
+
+        /* Add this to the existing CSS styles section */
+        .contract-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .contract-button:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent-color);
+            box-shadow: var(--glow);
+            background: linear-gradient(45deg, var(--card-bg), rgba(110, 86, 207, 0.1));
+        }
+
+        .contract-button i {
+            font-size: 1.2rem;
+            color: var(--accent-color);
+        }
     </style>
 </head>
 <body>
@@ -1086,7 +1115,10 @@
                     </div>
                     
                     <div class="contract-address">
-                        Contract address: <a href="https://pump.fun/coin/9fFCdePp3XJTs4ZxLicNWok8wxB2pwV12aheyEPGpump" target="_blank" style="color: var(--accent-color); text-decoration: none;">9fFCdePp3XJTs4ZxLicNWok8wxB2pwV12aheyEPGpump</a>
+                        <a href="https://pump.fun/coin/9fFCdePp3XJTs4ZxLicNWok8wxB2pwV12aheyEPGpump" target="_blank" class="contract-button">
+                            <i class="fas fa-link"></i>
+                            View on Pump.fun
+                        </a>
                     </div>
                 </div>
                 
