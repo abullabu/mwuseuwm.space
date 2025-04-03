@@ -1,0 +1,2482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mwuseuwm - Digital Art Digex Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Base Styles */
+        :root {
+            --primary-bg: #0a0a0a;
+            --secondary-bg: #121212;
+            --card-bg: #1a1a1a;
+            --accent-color: #6e56cf;
+            --accent-gradient: linear-gradient(135deg, #6e56cf, #e94c89);
+            --accent-secondary: #e94c89;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-tertiary: rgba(255, 255, 255, 0.5);
+            --success-color: #00d172;
+            --warning-color: #ffb800;
+            --error-color: #ff4d4d;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --border-radius: 12px;
+            --glow: 0 0 20px rgba(110, 86, 207, 0.4);
+            --cursor-color: rgba(255, 255, 255, 0.7);
+        }
+
+        :root[data-theme="light"] {
+            --primary-bg: #ffffff;
+            --secondary-bg: #f5f5f5;
+            --card-bg: #ffffff;
+            --text-primary: #000000;
+            --text-secondary: rgba(0, 0, 0, 0.7);
+            --text-tertiary: rgba(0, 0, 0, 0.5);
+            --border-color: rgba(0, 0, 0, 0.1);
+            --glow: 0 0 20px rgba(110, 86, 207, 0.2);
+            --cursor-color: rgba(0, 0, 0, 0.7);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+        }
+
+        section {
+            padding: 6rem 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .section-header p {
+            max-width: 700px;
+            margin: 0 auto;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* Navigation */
+        .nav-wrapper {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: transparent;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .logo-icon svg {
+            width: 100%;
+            height: 100%;
+            transform-origin: center;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: var(--transition);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-gradient);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .connect-wallet {
+            padding: 0.8rem 1.5rem;
+            background: var(--accent-gradient);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .connect-wallet:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--glow);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-primary);
+        }
+
+        /* Coming Soon Overlay */
+        .coming-soon-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 10, 0.7);
+            backdrop-filter: blur(15px);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        :root[data-theme="light"] .coming-soon-overlay {
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        .coming-soon-container {
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            padding: 2rem;
+            position: relative;
+            z-index: 10;
+            background: rgba(26, 26, 26, 0.5);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--glow);
+            display: flex;
+            flex-direction: column;
+            transition: max-width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .coming-soon-container.expanded {
+            max-width: 1200px;
+        }
+
+        #preview-view {
+            width: 100%;
+        }
+
+        #preview-view .preview-container {
+            padding: 0;
+        }
+
+        .view-content {
+            display: none;
+            width: 100%;
+        }
+
+        .view-content.active {
+            display: block;
+            animation: contentFadeIn 0.6s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+        }
+
+        @keyframes contentFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .coming-soon-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(-20px);
+            animation: logoFadeIn 0.8s ease 0.8s forwards;
+        }
+
+        .coming-soon-logo .logo-icon {
+            width: 60px;
+            height: 60px;
+            background: transparent;
+            overflow: hidden;
+        }
+
+        .coming-soon-logo .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            animation: logoRotate 12s linear infinite, logoPulse 3s ease-in-out infinite;
+        }
+
+        .coming-soon-logo .logo-text {
+            font-family: 'Syne', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 1px;
+        }
+
+        @keyframes logoFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes logoRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes logoPulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 rgba(110, 86, 207, 0.4); }
+            50% { transform: scale(1.1); box-shadow: 0 0 20px rgba(110, 86, 207, 0.6); }
+            100% { transform: scale(1); box-shadow: 0 0 0 rgba(110, 86, 207, 0.4); }
+        }
+
+        .coming-soon-overlay h2 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            opacity: 0;
+            transform: translateY(-20px);
+            animation: titleFadeIn 0.8s ease 0.6s forwards;
+        }
+
+        @keyframes titleFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .coming-soon-overlay p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: var(--text-secondary);
+            opacity: 0;
+            transform: translateY(-15px);
+            animation: textFadeIn 0.8s ease 0.9s forwards;
+        }
+
+        @keyframes textFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .countdown-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .countdown-item:nth-child(1) { animation: itemFadeIn 0.6s ease 1.2s forwards; }
+        .countdown-item:nth-child(2) { animation: itemFadeIn 0.6s ease 1.4s forwards; }
+        .countdown-item:nth-child(3) { animation: itemFadeIn 0.6s ease 1.6s forwards; }
+        .countdown-item:nth-child(4) { animation: itemFadeIn 0.6s ease 1.8s forwards; }
+
+        @keyframes itemFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .contact-address {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: rgba(110, 86, 207, 0.2);
+            border: 1px solid var(--accent-color);
+            border-radius: var(--border-radius);
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(15px);
+            animation: addressFadeIn 0.6s ease 2s forwards;
+        }
+
+        @keyframes addressFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .social-links {
+            opacity: 0;
+            transform: translateY(15px);
+            animation: socialFadeIn 0.6s ease 2.2s forwards;
+        }
+
+        @keyframes socialFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Tab System */
+        .tab-container {
+            position: relative;
+            margin-bottom: 1rem;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            min-height: 0;
+        }
+
+        .tab-buttons {
+            display: flex;
+            position: relative;
+            z-index: 2;
+            margin-bottom: 1rem;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 1rem;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tab-btn::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--border-color);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateX(-50%);
+        }
+
+        .tab-btn.active::after {
+            width: 100%;
+            background: var(--accent-gradient);
+            height: 3px;
+            box-shadow: 0 0 10px rgba(110, 86, 207, 0.4);
+        }
+
+        .tab-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.7s ease;
+        }
+
+        .tab-btn:hover::before {
+            left: 100%;
+        }
+
+        .tab-btn.active {
+            color: var(--text-primary);
+        }
+
+        .tab-btn:hover::after {
+            background: var(--border-color);
+            width: 0;
+        }
+
+        .tab-btn.active:hover::after {
+            background: var(--accent-gradient);
+            width: 100%;
+        }
+
+        .tab-content {
+            display: none;
+            overflow-y: auto;
+            max-height: 50vh;
+            padding-right: 10px;
+            opacity: 0;
+            transform: translateX(20px);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .tab-content.active {
+            display: block;
+            opacity: 1;
+            transform: translateX(0);
+            animation: tabFadeIn 0.5s ease forwards;
+        }
+
+        @keyframes tabFadeIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Scrollbar Styling */
+        .tab-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .tab-content::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 3px;
+        }
+
+        .tab-content::-webkit-scrollbar-thumb {
+            background: var(--accent-color);
+            border-radius: 3px;
+        }
+
+        .tab-content::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-secondary);
+        }
+
+        .tab-content::-webkit-scrollbar-thumb:active {
+            background: var(--accent-color);
+        }
+
+        .countdown-timer {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .countdown-value {
+            font-size: 3rem;
+            font-weight: 700;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            min-width: 80px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .countdown-value:hover {
+            transform: scale(1.1);
+        }
+
+        /* Removing tooltip styles */
+        .countdown-value::after {
+            display: none;
+        }
+
+        .countdown-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Phases Tab Content */
+        .phases-info {
+            margin: 0;
+            padding-bottom: 1rem;
+        }
+
+        .current-phase {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .phase-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--accent-gradient);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+
+        .current-phase p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin: 0.5rem 0 1.5rem;
+        }
+
+        .phase-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .phase-timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 15px;
+            width: 2px;
+            height: 100%;
+            background: var(--border-color);
+            z-index: 1;
+        }
+
+        .phase-item {
+            position: relative;
+            z-index: 2;
+        }
+
+        .phase-dot {
+            position: absolute;
+            left: -30px;
+            top: 0;
+            width: 16px;
+            height: 16px;
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .phase-dot::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: var(--accent-gradient);
+            opacity: 0;
+            animation: pulseDot 2s infinite;
+        }
+
+        @keyframes pulseDot {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.5;
+            }
+            70% {
+                transform: translate(-50%, -50%) scale(2);
+                opacity: 0;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0;
+            }
+        }
+
+        .phase-item.active .phase-dot {
+            background: var(--accent-gradient);
+            border-color: transparent;
+            box-shadow: var(--glow);
+        }
+
+        .phase-content {
+            background: rgba(26, 26, 26, 0.8);
+            border-radius: 12px;
+            padding: 1.8rem;
+            border: 1px solid rgba(110, 86, 207, 0.3);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(5px);
+        }
+
+        .phase-content:hover {
+            transform: translateY(-5px) scale(1.02);
+            border-color: var(--accent-color);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 15px rgba(110, 86, 207, 0.3);
+        }
+
+        .phase-content h4 {
+            color: var(--text-primary);
+            margin-bottom: 1.2rem;
+            font-size: 1.4rem;
+            padding-bottom: 0.8rem;
+            border-bottom: none;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .phase-date {
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+            font-weight: normal;
+        }
+
+        .phase-content ul {
+            list-style: none;
+            margin: 1rem 0 0;
+        }
+
+        .phase-content ul li {
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            position: relative;
+            padding-left: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .phase-content ul li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--accent-color);
+        }
+
+        /* Social Links */
+        .coming-soon-overlay .social-links {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .coming-soon-overlay .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: all 0.3s ease !important;
+            border: 1px solid var(--border-color);
+        }
+
+        .coming-soon-overlay .social-links a:hover {
+            transform: rotate(360deg) translateY(-3px) !important;
+        }
+
+        .pump-fun-btn {
+            width: 40px !important;
+            height: 40px !important;
+            padding: 8px !important;
+            background: var(--card-bg) !important;
+            border: 1px solid var(--border-color) !important;
+            border-radius: 50% !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .pump-logo {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .pump-fun-btn:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent-color) !important;
+            box-shadow: var(--glow);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .countdown-timer {
+                gap: 1rem;
+            }
+            
+            .countdown-value {
+                font-size: 2rem;
+                min-width: 60px;
+            }
+            
+            .coming-soon-container {
+                width: 90%;
+                padding: 1.5rem;
+            }
+            
+            .coming-soon-overlay h2 {
+                font-size: 2.5rem;
+            }
+            
+            .coming-soon-overlay p {
+                font-size: 1rem;
+                margin-bottom: 2rem;
+            }
+
+            .tab-content {
+                max-height: 40vh;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .countdown-timer {
+                flex-wrap: wrap;
+            }
+            
+            .countdown-item {
+                width: 45%;
+                margin-bottom: 1rem;
+            }
+        }
+
+        /* Utility Buttons Styles */
+        .utility-buttons {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 1rem;
+            z-index: 2001;
+        }
+
+        .theme-toggle,
+        .lang-toggle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover,
+        .lang-toggle:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--glow);
+        }
+
+        .current-lang {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* Notification System */
+        .notification-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+
+        .notification {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            margin-bottom: 10px;
+            min-width: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            animation: slideIn 0.3s ease forwards;
+            box-shadow: var(--glow);
+        }
+
+        .notification.success {
+            border-color: var(--success-color);
+        }
+
+        .notification.error {
+            border-color: var(--error-color);
+        }
+
+        .notification.warning {
+            border-color: var(--warning-color);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Newsletter Form */
+        .newsletter-form {
+            margin-top: 2rem;
+            display: flex;
+            gap: 1rem;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            font-family: inherit;
+        }
+
+        .newsletter-form input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: var(--glow);
+        }
+
+        .subscribe-btn {
+            padding: 0.8rem 1.5rem;
+            background: var(--accent-gradient);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .subscribe-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--glow);
+        }
+
+        /* Özel İmleç Stilleri */
+        .custom-cursor {
+            width: 24px;
+            height: 24px;
+            border: 2px solid white;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 15px rgba(110, 86, 207, 0.4);
+        }
+
+        .custom-cursor-follower {
+            width: 8px;
+            height: 8px;
+            background: linear-gradient(135deg, #6e56cf, #e94c89);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: all 0.1s cubic-bezier(0.165, 0.84, 0.44, 1);
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 10px rgba(233, 76, 137, 0.6);
+        }
+
+        /* Tıklanabilir öğeler için imleç efekti */
+        a, button, .countdown-value, .phase-content, .tab-btn {
+            cursor: none;
+        }
+
+        a:hover ~ .custom-cursor,
+        button:hover ~ .custom-cursor,
+        .countdown-value:hover ~ .custom-cursor,
+        .phase-content:hover ~ .custom-cursor,
+        .tab-btn:hover ~ .custom-cursor {
+            transform: translate(-50%, -50%) scale(1.5);
+            border-color: #e94c89;
+            box-shadow: 0 0 20px rgba(233, 76, 137, 0.6);
+        }
+
+        a:hover ~ .custom-cursor-follower,
+        button:hover ~ .custom-cursor-follower,
+        .countdown-value:hover ~ .custom-cursor-follower,
+        .phase-content:hover ~ .custom-cursor-follower,
+        .tab-btn:hover ~ .custom-cursor-follower {
+            transform: translate(-50%, -50%) scale(0.5);
+            background: linear-gradient(135deg, #e94c89, #6e56cf);
+            box-shadow: 0 0 15px rgba(233, 76, 137, 0.8);
+        }
+
+        /* Add this to the existing CSS styles section */
+        .contract-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .contract-button:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent-color);
+            box-shadow: var(--glow);
+            background: linear-gradient(45deg, var(--card-bg), rgba(110, 86, 207, 0.1));
+        }
+
+        .contract-button i {
+            font-size: 1.2rem;
+            color: var(--accent-color);
+        }
+
+        /* Enhanced Preview and Payment Status Layout */
+        .preview-container {
+            display: flex;
+            justify-content: space-between;
+            padding: 2rem;
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2001;
+        }
+
+        .preview-section {
+            flex: 1;
+            background: rgba(26, 26, 26, 0.95);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--glow);
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .preview-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .preview-header h2 {
+            margin: 0;
+            font-size: 2rem;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .preview-card {
+            background: rgba(110, 86, 207, 0.1);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .preview-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
+            box-shadow: var(--glow);
+        }
+
+        .preview-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .preview-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .preview-card i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .payment-status {
+            width: 350px;
+            background: rgba(26, 26, 26, 0.95);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            box-shadow: var(--glow);
+        }
+
+        .payment-status-header {
+            text-align: center;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .payment-status-header h3 {
+            font-size: 1.8rem;
+            margin: 0;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .status-card {
+            background: rgba(110, 86, 207, 0.1);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            font-weight: 600;
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--error-color);
+            color: white;
+            transition: var(--transition);
+        }
+
+        .status-indicator i {
+            font-size: 1.2rem;
+        }
+
+        .status-indicator.paid {
+            background: var(--success-color);
+        }
+
+        .status-details {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .status-item span:last-child {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .payment-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .payment-action-btn {
+            flex: 1;
+            padding: 0.8rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background: transparent;
+            color: var(--text-primary);
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .payment-action-btn:hover {
+            border-color: var(--accent-color);
+            background: rgba(110, 86, 207, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* View Switcher Styles */
+        .view-switcher {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2002;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .view-btn {
+            padding: 0.8rem 1.5rem;
+            background: rgba(26, 26, 26, 0.95);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            color: var(--text-secondary);
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .view-btn i {
+            font-size: 1.2rem;
+        }
+
+        .view-btn:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent-color);
+            color: var(--text-primary);
+            box-shadow: var(--glow);
+        }
+
+        .view-btn.active {
+            background: var(--accent-gradient);
+            border-color: transparent;
+            color: white;
+        }
+
+        .view-content {
+            display: none;
+        }
+
+        .view-content.active {
+            display: block;
+        }
+
+        .roadmap-section {
+            margin-top: 1rem;
+            padding-top: 0;
+            border-top: none;
+        }
+
+        .phase-timeline {
+            margin-top: 2rem;
+            padding: 0 1rem;
+        }
+
+        .phase-item {
+            margin-bottom: 2rem;
+        }
+
+        .phase-content {
+            background: rgba(110, 86, 207, 0.1);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .phase-content:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-5px);
+            box-shadow: var(--glow);
+        }
+
+        .phase-content h4 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .phase-content ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .phase-content ul li {
+            color: var(--text-secondary);
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .phase-content ul li:before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--accent-color);
+        }
+
+        .current-phase {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .phase-badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: var(--accent-gradient);
+            border-radius: 20px;
+            color: white;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .current-phase p {
+            color: var(--text-secondary);
+        }
+
+        /* Make the container scrollable */
+        .coming-soon-container {
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        /* Customize scrollbar */
+        .coming-soon-container::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .coming-soon-container::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .coming-soon-container::-webkit-scrollbar-thumb {
+            background: var(--accent-color);
+            border-radius: 3px;
+        }
+
+        #roadmap-view {
+            overflow-y: auto;
+            max-height: 60vh;
+            padding: 0 15px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent-color) rgba(26, 26, 26, 0.5);
+        }
+
+        #roadmap-view::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        #roadmap-view::-webkit-scrollbar-track {
+            background: rgba(110, 86, 207, 0.1);
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+
+        #roadmap-view::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, #6e56cf, #e94c89);
+            border-radius: 10px;
+            border: 2px solid rgba(26, 26, 26, 0.8);
+        }
+
+        #roadmap-view::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(to bottom, #7a63d9, #f15a94);
+        }
+
+        #roadmap-view h2 {
+            margin-bottom: 2rem;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-align: center;
+            font-size: 2.5rem;
+            letter-spacing: 1px;
+        }
+
+        #roadmap-view .roadmap-section {
+            margin-top: 0;
+            padding: 0 10px 20px 10px;
+        }
+
+        .phase-item {
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+
+        .phase-item:last-child {
+            margin-bottom: 1rem;
+        }
+
+        .phase-item::before {
+            content: '';
+            position: absolute;
+            left: -25px;
+            top: 8px;
+            bottom: -30px;
+            width: 3px;
+            background: linear-gradient(to bottom, rgba(110, 86, 207, 0.8), rgba(110, 86, 207, 0.1));
+            border-radius: 3px;
+        }
+
+        .phase-item:last-child::before {
+            bottom: 0;
+            background: linear-gradient(to bottom, rgba(110, 86, 207, 0.8), transparent);
+        }
+
+        .phase-dot {
+            position: absolute;
+            left: -28px;
+            top: 8px;
+            width: 10px;
+            height: 10px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(110, 86, 207, 0.8), 0 0 20px rgba(110, 86, 207, 0.4);
+            z-index: 2;
+        }
+
+        .phase-item.active .phase-dot {
+            width: 16px;
+            height: 16px;
+            left: -31px;
+            top: 5px;
+            background: linear-gradient(135deg, #6e56cf, #e94c89);
+            box-shadow: 0 0 15px rgba(110, 86, 207, 1), 0 0 30px rgba(110, 86, 207, 0.6);
+        }
+
+        .phase-content {
+            background: rgba(26, 26, 26, 0.8);
+            border-radius: 12px;
+            padding: 1.8rem;
+            border: 1px solid rgba(110, 86, 207, 0.3);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(5px);
+        }
+
+        .phase-content:hover {
+            transform: translateY(-5px) scale(1.02);
+            border-color: var(--accent-color);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 15px rgba(110, 86, 207, 0.3);
+        }
+
+        .phase-content h4 {
+            color: var(--text-primary);
+            margin-bottom: 1.2rem;
+            font-size: 1.4rem;
+            padding-bottom: 0.8rem;
+            border-bottom: none;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .phase-content ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .phase-content ul li {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            padding-left: 1.8rem;
+            position: relative;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .phase-content ul li:before {
+            content: '›';
+            position: absolute;
+            left: 0;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        .phase-content ul li:last-child {
+            margin-bottom: 0;
+        }
+
+        .current-phase {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .phase-badge {
+            display: inline-block;
+            padding: 0.6rem 1.8rem;
+            background: linear-gradient(135deg, rgba(110, 86, 207, 0.9), rgba(233, 76, 137, 0.9));
+            border-radius: 30px;
+            color: white;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2), 0 0 15px rgba(110, 86, 207, 0.4);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        .current-phase p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 80%;
+            margin: 0 auto;
+        }
+
+        .phase-timeline {
+            position: relative;
+            margin-left: 25px;
+            padding: 0;
+        }
+
+        /* Add a subtle animation for active phase */
+        @keyframes pulseDot {
+            0% {
+                box-shadow: 0 0 0 0 rgba(110, 86, 207, 0.7);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow: 0 0 15px 5px rgba(110, 86, 207, 0.3);
+                transform: scale(1.1);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(110, 86, 207, 0);
+                transform: scale(1);
+            }
+        }
+
+        .phase-item.active .phase-dot {
+            animation: pulseDot 2.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+
+        /* Pump.fun Button Styles */
+        .pump-fun-container {
+            display: flex;
+            justify-content: center;
+            margin: 1rem 0 2rem;
+        }
+
+        .pump-fun-link {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.8rem 1.5rem;
+            background: rgba(26, 26, 26, 0.8);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+            backdrop-filter: blur(5px);
+        }
+
+        .pump-fun-link:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
+            box-shadow: var(--glow), 0 10px 25px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(45deg, rgba(26, 26, 26, 0.8), rgba(110, 86, 207, 0.1));
+        }
+
+        .pump-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            object-fit: contain;
+        }
+
+        /* Custom Cursor Styles */
+        .custom-cursor {
+            width: 24px;
+            height: 24px;
+            border: 2px solid white;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 15px rgba(110, 86, 207, 0.4);
+        }
+
+        .custom-cursor-follower {
+            width: 8px;
+            height: 8px;
+            background: linear-gradient(135deg, #6e56cf, #e94c89);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: all 0.1s cubic-bezier(0.165, 0.84, 0.44, 1);
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 10px rgba(233, 76, 137, 0.6);
+        }
+
+        /* Ensure cursor is visible */
+        * {
+            cursor: none !important;
+        }
+
+        a:hover,
+        button:hover,
+        .countdown-value:hover,
+        .phase-content:hover,
+        .tab-btn:hover {
+            cursor: none !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <div class="nav-wrapper">
+        <nav>
+            <a href="#" class="logo">
+                <div class="logo-icon">
+                    <img src="favicon.png" alt="Mwuseuwm Logo">
+                </div>
+                Mwuseuwm
+            </a>
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#gallery">Gallery</a>
+                <a href="#how-it-works">How it Works</a>
+                <a href="#roadmap">Roadmap</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <button class="connect-wallet">
+                <i class="fas fa-wallet"></i> Connect Wallet
+            </button>
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
+    </div>
+
+    <!-- Theme Switcher and Language Selector -->
+    <div class="utility-buttons">
+        <button class="theme-toggle" id="themeToggle">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="lang-toggle" id="langToggle">
+            <span class="current-lang">EN</span>
+        </button>
+    </div>
+
+    <!-- Coming Soon Overlay -->
+    <div class="coming-soon-overlay">
+        <div class="floating-colors">
+            <div class="color-blob"></div>
+            <div class="color-blob"></div>
+            <div class="color-blob"></div>
+            <div class="color-blob"></div>
+        </div>
+        
+        <div class="coming-soon-container">
+            <div class="coming-soon-logo">
+                <div class="logo-icon">
+                    <img src="favicon.png" alt="Mwuseuwm Logo">
+                </div>
+                <div class="logo-text">Mwuseuwm</div>
+            </div>
+
+            <div class="view-content active" id="countdown-view">
+                <h2>Coming Soon</h2>
+                <p>Mwuseuwm is launching on April 18, 2025</p>
+                
+                <div class="countdown-timer">
+                    <div class="countdown-item">
+                        <div class="countdown-value" id="countdown-days">00</div>
+                        <div class="countdown-label">Days</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-value" id="countdown-hours">00</div>
+                        <div class="countdown-label">Hours</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-value" id="countdown-minutes">00</div>
+                        <div class="countdown-label">Minutes</div>
+                    </div>
+                    <div class="countdown-item">
+                        <div class="countdown-value" id="countdown-seconds">00</div>
+                        <div class="countdown-label">Seconds</div>
+                    </div>
+                </div>
+                
+                <div class="pump-fun-container">
+                    <a href="https://pump.fun/coin/7BsZgn4g7rJbKmpDcLy3K9Rw7usEM9hMjhtjsXmKpump" target="_blank" class="pump-fun-link">
+                        <img src="https://upload.wikimedia.org/wikipedia/en/b/bd/Pump_fun_logo.png" alt="Pump.fun" class="pump-icon">
+                        View on Pump.fun
+                    </a>
+                </div>
+            </div>
+
+            <div class="view-content" id="roadmap-view">
+                <h2>Development Roadmap</h2>
+                <div class="roadmap-section">
+                    <div class="current-phase">
+                        <span class="phase-badge">Current: Phase 1</span>
+                        <p>Platform Development & Community Building</p>
+                    </div>
+                    
+                    <div class="phase-timeline">
+                        <div class="phase-item active">
+                            <span class="phase-dot"></span>
+                            <div class="phase-content">
+                                <h4>Phase 1: Foundation</h4>
+                                <ul>
+                                    <li>Platform architecture & UI/UX development</li>
+                                    <li>Smart contract development & security audits</li>
+                                    <li>Community building & artist partnerships</li>
+                                    <li>Initial marketing & brand awareness</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="phase-item">
+                            <span class="phase-dot"></span>
+                            <div class="phase-content">
+                                <h4>Phase 2: Digex Marketplace</h4>
+                                <ul>
+                                    <li>Launch of voting system for art curation</li>
+                                    <li>Digex minting functionality implementation</li>
+                                    <li>Artist royalty system integration</li>
+                                    <li>Secondary market development</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="phase-item">
+                            <span class="phase-dot"></span>
+                            <div class="phase-content">
+                                <h4>Phase 3: Governance</h4>
+                                <ul>
+                                    <li>Community governance implementation</li>
+                                    <li>DAO structure development</li>
+                                    <li>Voting mechanisms for platform decisions</li>
+                                    <li>Enhanced artist tools & analytics</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="phase-item">
+                            <span class="phase-dot"></span>
+                            <div class="phase-content">
+                                <h4>Phase 4: Expansion</h4>
+                                <ul>
+                                    <li>Token launch & tokenomics implementation</li>
+                                    <li>Cross-chain integration & partnerships</li>
+                                    <li>Advanced features & platform scaling</li>
+                                    <li>Global marketing & ecosystem expansion</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="view-content" id="preview-view">
+                <div class="preview-container">
+                    <div class="preview-section">
+                        <div class="preview-header">
+                            <h2>Interactive Preview</h2>
+                        </div>
+                        <div class="preview-grid">
+                            <div class="preview-card">
+                                <i class="fas fa-paint-brush"></i>
+                                <h3>Digital Canvas</h3>
+                                <p>Experience our innovative digital creation tools and interactive canvas technology.</p>
+                            </div>
+                            <div class="preview-card">
+                                <i class="fas fa-store"></i>
+                                <h3>Creative Marketplace</h3>
+                                <p>Discover unique digital artworks and connect with talented creators worldwide.</p>
+                            </div>
+                            <div class="preview-card">
+                                <i class="fas fa-users"></i>
+                                <h3>Community Hub</h3>
+                                <p>Join a thriving community of artists, collectors, and digital art enthusiasts.</p>
+                            </div>
+                            <div class="preview-card">
+                                <i class="fas fa-chart-line"></i>
+                                <h3>Analytics Dashboard</h3>
+                                <p>Track your portfolio performance with advanced analytics and insights.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="payment-status">
+                        <div class="payment-status-header">
+                            <h3>DEX Status</h3>
+                        </div>
+                        <div class="status-card">
+                            <div class="status-indicator">
+                                <i class="fas fa-clock"></i>
+                                NOT PAID
+                            </div>
+                            <div class="status-details">
+                                <div class="status-item">
+                                    <span>Network</span>
+                                    <span>Solana</span>
+                                </div>
+                                <div class="status-item">
+                                    <span>Contract Type</span>
+                                    <span>DEX</span>
+                                </div>
+                                <div class="status-item">
+                                    <span>Last Updated</span>
+                                    <span>Just now</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="payment-actions">
+                            <button class="payment-action-btn" id="refreshBtn">
+                                <i class="fas fa-sync-alt"></i> Refresh
+                            </button>
+                            <a href="https://explorer.solana.com/" target="_blank" class="payment-action-btn" id="viewBtn">
+                                <i class="fas fa-external-link-alt"></i> View
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="social-links">
+                <a href="https://x.com/Mwuseuwm"><i class="fab fa-twitter"></i></a>
+                <a href="https://pump.fun/coin/7BsZgn4g7rJbKmpDcLy3K9Rw7usEM9hMjhtjsXmKpump" class="pump-fun-btn">
+                    <img src="https://upload.wikimedia.org/wikipedia/en/b/bd/Pump_fun_logo.png" alt="Pump.fun" class="pump-logo">
+                </a>
+                <a href="https://t.me/mwuseuwm"><i class="fab fa-telegram"></i></a>
+            </div>
+        </div>
+
+        <div class="view-switcher">
+            <button class="view-btn active" data-view="countdown">
+                <i class="fas fa-clock"></i> Timer
+            </button>
+            <button class="view-btn" data-view="roadmap">
+                <i class="fas fa-map"></i> Roadmap
+            </button>
+            <button class="view-btn" data-view="preview">
+                <i class="fas fa-desktop"></i> Preview & Status
+            </button>
+        </div>
+    </div>
+
+    <!-- Notification System -->
+    <div class="notification-container" id="notificationContainer"></div>
+
+    <!-- Newsletter Form -->
+    <div class="newsletter-form">
+        <input type="email" placeholder="E-posta adresiniz" id="newsletterEmail">
+        <button class="subscribe-btn">Abone Ol</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set up custom cursor
+            const cursor = document.createElement('div');
+            const cursorFollower = document.createElement('div');
+            cursor.className = 'custom-cursor';
+            cursorFollower.className = 'custom-cursor-follower';
+            document.body.appendChild(cursor);
+            document.body.appendChild(cursorFollower);
+
+            // Update cursor position
+            document.addEventListener('mousemove', (e) => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+                cursorFollower.style.left = e.clientX + 'px';
+                cursorFollower.style.top = e.clientY + 'px';
+            });
+
+            // Hide cursor when leaving window
+            document.addEventListener('mouseleave', () => {
+                cursor.style.display = 'none';
+                cursorFollower.style.display = 'none';
+            });
+
+            // Show cursor when entering window
+            document.addEventListener('mouseenter', () => {
+                cursor.style.display = 'block';
+                cursorFollower.style.display = 'block';
+            });
+
+            // Cursor click effect
+            document.addEventListener('mousedown', () => {
+                cursor.style.transform = 'translate(-50%, -50%) scale(0.8)';
+                cursorFollower.style.transform = 'translate(-50%, -50%) scale(0.5)';
+            });
+
+            document.addEventListener('mouseup', () => {
+                cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+                cursorFollower.style.transform = 'translate(-50%, -50%) scale(1)';
+            });
+
+            // Set target date to April 18, 2025
+            const targetDate = new Date('April 18, 2025 00:00:00').getTime();
+
+            function updateTimer() {
+                const now = new Date().getTime();
+                const timeRemaining = targetDate - now;
+                
+                const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+                
+                document.getElementById('countdown-days').textContent = days < 10 ? '0' + days : days;
+                document.getElementById('countdown-hours').textContent = hours < 10 ? '0' + hours : hours;
+                document.getElementById('countdown-minutes').textContent = minutes < 10 ? '0' + minutes : minutes;
+                document.getElementById('countdown-seconds').textContent = seconds < 10 ? '0' + seconds : seconds;
+                
+                if (timeRemaining < 0) {
+                    clearInterval(countdownInterval);
+                    document.getElementById('countdown-days').textContent = '00';
+                    document.getElementById('countdown-hours').textContent = '00';
+                    document.getElementById('countdown-minutes').textContent = '00';
+                    document.getElementById('countdown-seconds').textContent = '00';
+                }
+            }
+
+            // Update timer immediately and then every second
+            updateTimer();
+            const countdownInterval = setInterval(updateTimer, 1000);
+
+            // Theme Switcher
+            const themeToggle = document.getElementById('themeToggle');
+            const root = document.documentElement;
+            const icon = themeToggle.querySelector('i');
+
+            themeToggle.addEventListener('click', () => {
+                const currentTheme = root.getAttribute('data-theme');
+                const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+                root.setAttribute('data-theme', newTheme);
+                
+                // Update icon
+                icon.className = newTheme === 'light' ? 'fas fa-sun' : 'fas fa-moon';
+                
+                // Save preference
+                localStorage.setItem('theme', newTheme);
+            });
+
+            // Language Switcher
+            const langToggle = document.getElementById('langToggle');
+            const langText = langToggle.querySelector('.current-lang');
+
+            const translations = {
+                en: {
+                    countdown: "Countdown",
+                    roadmap: "Roadmap",
+                    roadmapTitle: "Development Roadmap",
+                    comingSoon: "Coming Soon",
+                    days: "Days",
+                    hours: "Hours",
+                    minutes: "Minutes",
+                    seconds: "Seconds",
+                    contractAddress: "Contract address coming soon",
+                    currentPhase: "Current: Phase",
+                    platformDev: "Platform Development & Community Building",
+                    phase1Title: "Phase 1: Foundation",
+                    phase2Title: "Phase 2: Digex Marketplace",
+                    phase3Title: "Phase 3: Governance",
+                    phase4Title: "Phase 4: Expansion",
+                    phase1Items: [
+                        "Platform architecture & UI/UX development",
+                        "Smart contract development & security audits",
+                        "Community building & artist partnerships",
+                        "Initial marketing & brand awareness"
+                    ],
+                    phase2Items: [
+                        "Launch of voting system for art curation",
+                        "Digex minting functionality implementation",
+                        "Artist royalty system integration",
+                        "Secondary market development"
+                    ],
+                    phase3Items: [
+                        "Community governance implementation",
+                        "DAO structure development",
+                        "Voting mechanisms for platform decisions",
+                        "Enhanced artist tools & analytics"
+                    ],
+                    phase4Items: [
+                        "Token launch & tokenomics implementation",
+                        "Cross-chain integration & partnerships",
+                        "Advanced features & platform scaling",
+                        "Global marketing & ecosystem expansion"
+                    ],
+                    wereLive: "We're Live!",
+                    launchMessage: "Mwuseuwm has officially launched. Explore the platform now.",
+                    enterPlatform: "Enter Platform"
+                },
+                tr: {
+                    countdown: "Geri Sayım",
+                    roadmap: "Yol Haritası",
+                    roadmapTitle: "Gelişim Yol Haritası",
+                    comingSoon: "Çok Yakında",
+                    days: "Gün",
+                    hours: "Saat",
+                    minutes: "Dakika",
+                    seconds: "Saniye",
+                    contractAddress: "Kontrat adresi çok yakında",
+                    currentPhase: "Mevcut: Faz",
+                    platformDev: "Platform Geliştirme ve Topluluk Oluşturma",
+                    phase1Title: "Faz 1: Temel",
+                    phase2Title: "Faz 2: Digex Pazaryeri",
+                    phase3Title: "Faz 3: Yönetişim",
+                    phase4Title: "Faz 4: Genişleme",
+                    phase1Items: [
+                        "Platform mimarisi ve UI/UX geliştirme",
+                        "Akıllı kontrat geliştirme ve güvenlik denetimleri",
+                        "Topluluk oluşturma ve sanatçı ortaklıkları",
+                        "İlk pazarlama ve marka bilinirliği"
+                    ],
+                    phase2Items: [
+                        "Sanat kürasyon oylama sisteminin lansmanı",
+                        "Digex basım işlevselliğinin uygulanması",
+                        "Sanatçı telif sistemi entegrasyonu",
+                        "İkincil pazar geliştirme"
+                    ],
+                    phase3Items: [
+                        "Topluluk yönetişimi uygulaması",
+                        "DAO yapısı geliştirme",
+                        "Platform kararları için oylama mekanizmaları",
+                        "Gelişmiş sanatçı araçları ve analizler"
+                    ],
+                    phase4Items: [
+                        "Token lansmanı ve tokenomics uygulaması",
+                        "Çoklu zincir entegrasyonu ve ortaklıklar",
+                        "Gelişmiş özellikler ve platform ölçeklendirme",
+                        "Global pazarlama ve ekosistem genişlemesi"
+                    ],
+                    wereLive: "Yayındayız!",
+                    launchMessage: "Mwuseuwm resmi olarak yayında. Platformu şimdi keşfedin.",
+                    enterPlatform: "Platforma Gir"
+                },
+                es: {
+                    countdown: "Cuenta Atrás",
+                    roadmap: "Hoja de Ruta",
+                    roadmapTitle: "Hoja de Ruta de Desarrollo",
+                    comingSoon: "Próximamente",
+                    days: "Días",
+                    hours: "Horas",
+                    minutes: "Minutos",
+                    seconds: "Segundos",
+                    contractAddress: "Dirección del contrato próximamente",
+                    currentPhase: "Actual: Fase",
+                    platformDev: "Desarrollo de Plataforma y Construcción de Comunidad",
+                    phase1Title: "Fase 1: Fundamento",
+                    phase2Title: "Fase 2: Mercado de Digex",
+                    phase3Title: "Fase 3: Gobernanza",
+                    phase4Title: "Fase 4: Expansión",
+                    phase1Items: [
+                        "Desarrollo de la arquitectura de la plataforma y la interfaz de usuario",
+                        "Desarrollo del contrato inteligente y auditorías de seguridad",
+                        "Construcción de la comunidad y colaboraciones con artistas",
+                        "Marketing inicial y conocimiento de la marca"
+                    ],
+                    phase2Items: [
+                        "Lanzamiento del sistema de votación para la curación de arte",
+                        "Implementación de la funcionalidad de creación de Digex",
+                        "Integración del sistema de royalties del artista",
+                        "Desarrollo del mercado secundario"
+                    ],
+                    phase3Items: [
+                        "Implementación de la gobernanza de la comunidad",
+                        "Desarrollo de la estructura de DAO",
+                        "Mecanismos de votación para decisiones de la plateforme",
+                        "Herramientas y análisis avanzados para artistas"
+                    ],
+                    phase4Items: [
+                        "Lanzamiento del token y su implementación de economía de tokens",
+                        "Integración y colaboraciones entre cadenas",
+                        "Características avanzadas y escalado de la plateforme",
+                        "Marketing global y expansión del ecosistemas"
+                    ],
+                    wereLive: "¡Estamos en vivo!",
+                    launchMessage: "Mwuseuwm ha sido lanzado oficialmente. Explora la plataforma ahora.",
+                    enterPlatform: "Entrar a la Plataforma"
+                },
+                fr: {
+                    countdown: "Compte à Rebours",
+                    roadmap: "Feuille de Route",
+                    roadmapTitle: "Feuille de Route de Développement",
+                    comingSoon: "Bientôt Disponible",
+                    days: "Jours",
+                    hours: "Heures",
+                    minutes: "Minutes",
+                    seconds: "Secondes",
+                    contractAddress: "Adresse du contrat bientôt disponible",
+                    currentPhase: "Actuel: Phase",
+                    platformDev: "Développement de Plateforme et Construction de Communauté",
+                    phase1Title: "Phase 1: Fondation",
+                    phase2Title: "Phase 2: Marché Digex",
+                    phase3Title: "Phase 3: Gouvernance",
+                    phase4Title: "Phase 4: Expansion",
+                    phase1Items: [
+                        "Développement de l'architecture de la plateforme et de l'interface utilisateur",
+                        "Développement du contrat intelligent et audits de sécurité",
+                        "Construction de la communauté et collaborations avec les artistes",
+                        "Marketing initial et connaissance de la marque"
+                    ],
+                    phase2Items: [
+                        "Lancement du système de vote pour la curation d'art",
+                        "Implémentation de la fonctionnalité de création de Digex",
+                        "Intégration du système de royalties de l'artiste",
+                        "Développement du marché secondaire"
+                    ],
+                    phase3Items: [
+                        "Implémentation de la gouvernance de la communauté",
+                        "Développement de la structure de DAO",
+                        "Mécanismes de vote pour les décisions de la plateforme",
+                        "Outils et analyses avancés pour les artistes"
+                    ],
+                    phase4Items: [
+                        "Lancement du token et son implémentation de l'économie des tokens",
+                        "Intégration et collaborations entre chaînes",
+                        "Fonctionnalités avancées et mise à l'échelle de la plateforme",
+                        "Marketing global et expansion de l'écosystème"
+                    ],
+                    wereLive: "Nous sommes en direct !",
+                    launchMessage: "Mwuseuwm est lancé officiellement. Explorez la plateforme maintenant.",
+                    enterPlatform: "Entrer dans la Plateforme"
+                },
+                de: {
+                    countdown: "Countdown",
+                    roadmap: "Fahrplan",
+                    roadmapTitle: "Entwicklungsfahrplan",
+                    comingSoon: "Demnächst",
+                    days: "Tage",
+                    hours: "Stunden",
+                    minutes: "Minuten",
+                    seconds: "Sekunden",
+                    contractAddress: "Vertragsadresse in Kürze verfügbar",
+                    currentPhase: "Aktuell: Phase",
+                    platformDev: "Plattformentwicklung und Gemeinschaftsbildung",
+                    phase1Title: "Phase 1: Grundlage",
+                    phase2Title: "Phase 2: Digex-Marktplatz",
+                    phase3Title: "Phase 3: Regelung",
+                    phase4Title: "Phase 4: Expansion",
+                    phase1Items: [
+                        "Plattformarchitektur und UI/UX-Entwicklung",
+                        "Smart-Contract-Entwicklung und Sicherheitsaudits",
+                        "Gemeinschaftsbildung und Künstlerpartnerschaften",
+                        "Initiales Marketing und Markenbewusstsein"
+                    ],
+                    phase2Items: [
+                        "Start des Voting-Systems für die Kunstkuratierung",
+                        "Implementierung der Digex-Minting-Funktionalität",
+                        "Integration des Künstler-Royalty-Systems",
+                        "Sekundärmarktentwicklung"
+                    ],
+                    phase3Items: [
+                        "Gemeinschaftsregelungsimplementierung",
+                        "DAO-Strukturentwicklung",
+                        "Stimmungsmechanismen für Plattformentscheidungen",
+                        "Verbesserte Künstlerwerkzeuge und Analysen"
+                    ],
+                    phase4Items: [
+                        "Tokenstart und Tokenomics-Implementierung",
+                        "Kreuzkettenintegration und Partnerschaften",
+                        "Erweiterte Funktionen und Plattformskalierung",
+                        "Globales Marketing und Ecosystem-Expansion"
+                    ],
+                    wereLive: "Wir sind Live!",
+                    launchMessage: "Mwuseuwm ist offiziell veröffentlicht. Erkunden Sie die Plattform jetzt.",
+                    enterPlatform: "In die Plattform einsteigen"
+                },
+                zh: {
+                    countdown: "倒计时",
+                    roadmap: "路线图",
+                    roadmapTitle: "开发路线图",
+                    comingSoon: "即将推出",
+                    days: "天",
+                    hours: "小时",
+                    minutes: "分钟",
+                    seconds: "秒",
+                    contractAddress: "合约地址即将推出",
+                    currentPhase: "当前：阶段",
+                    platformDev: "平台开发和社区建设",
+                    phase1Title: "阶段1：基础",
+                    phase2Title: "阶段2：Digex市场",
+                    phase3Title: "阶段3：治理",
+                    phase4Title: "阶段4：扩展",
+                    phase1Items: [
+                        "平台架构和UI/UX开发",
+                        "智能合约开发和安全审计",
+                        "社区建设和艺术家合作",
+                        "初始营销和品牌意识"
+                    ],
+                    phase2Items: [
+                        "艺术品策展投票系统的启动",
+                        "Digex铸造功能实现",
+                        "艺术家版权系统集成",
+                        "二级市场开发"
+                    ],
+                    phase3Items: [
+                        "社区治理实施",
+                        "DAO结构开发",
+                        "平台决策投票机制",
+                        "增强艺术家工具和分析"
+                    ],
+                    phase4Items: [
+                        "代币启动和代币经济学实现",
+                        "跨链集成和合作伙伴关系",
+                        "高级功能和平台扩展",
+                        "全球营销和生态系统扩展"
+                    ],
+                    wereLive: "我们正在直播！",
+                    launchMessage: "Mwuseuwm已正式上线。现在探索平台。",
+                    enterPlatform: "进入平台"
+                }
+            };
+
+            langToggle.addEventListener('click', () => {
+                const currentLang = langText.textContent.toLowerCase();
+                const languages = ['en', 'tr', 'es', 'fr', 'de', 'zh'];
+                const currentIndex = languages.indexOf(currentLang);
+                const nextIndex = (currentIndex + 1) % languages.length;
+                const newLang = languages[nextIndex];
+                
+                langText.textContent = newLang.toUpperCase();
+                updateContent(newLang);
+                localStorage.setItem('lang', newLang);
+            });
+
+            function updateContent(lang) {
+                const t = translations[lang];
+                
+                // Update countdown labels
+                document.querySelectorAll('.countdown-label').forEach((label, index) => {
+                    const keys = ['days', 'hours', 'minutes', 'seconds'];
+                    label.textContent = t[keys[index]];
+                });
+                
+                // Update basic content
+                document.querySelector('.coming-soon-overlay h2').textContent = t.comingSoon;
+                document.querySelector('#roadmap-view h2').textContent = t.roadmapTitle || t.roadmap;
+                
+                // Update roadmap content
+                document.querySelector('.phase-badge').textContent = `${t.currentPhase} 1`;
+                document.querySelector('.current-phase p').textContent = t.platformDev;
+                
+                // Update phase titles and items
+                const phaseItems = document.querySelectorAll('.phase-item');
+                phaseItems.forEach((item, index) => {
+                    const phaseNum = index + 1;
+                    const titleKey = `phase${phaseNum}Title`;
+                    const itemsKey = `phase${phaseNum}Items`;
+                    
+                    const phaseTitle = item.querySelector('h4');
+                    if (phaseTitle) {
+                        phaseTitle.textContent = t[titleKey];
+                    }
+                    
+                    const ul = item.querySelector('ul');
+                    if (ul && t[itemsKey]) {
+                        ul.innerHTML = t[itemsKey].map(text => `<li>${text}</li>`).join('');
+                    }
+                });
+            }
+
+            // Update countdown finish message
+            function updateLaunchMessage(lang) {
+                const t = translations[lang];
+                return `
+                    <div class="coming-soon-container">
+                        <h2>${t.wereLive}</h2>
+                        <p>${t.launchMessage}</p>
+                        <a href="#" class="btn btn-primary">${t.enterPlatform}</a>
+                    </div>
+                `;
+            }
+
+            // Notification System
+            function showNotification(message, type = 'success') {
+                const notification = document.createElement('div');
+                notification.className = `notification ${type}`;
+                notification.innerHTML = `
+                    <p>${message}</p>
+                    <button onclick="this.parentElement.remove()">×</button>
+                `;
+                document.getElementById('notificationContainer').appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.remove();
+                }, 5000);
+            }
+
+            // Newsletter Form
+            const newsletterForm = document.querySelector('.newsletter-form');
+            const emailInput = document.getElementById('newsletterEmail');
+
+            newsletterForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = emailInput.value;
+                
+                if (email && email.includes('@')) {
+                    // Burada API çağrısı yapılabilir
+                    showNotification('Newsletter kaydınız başarıyla tamamlandı!');
+                    emailInput.value = '';
+                } else {
+                    showNotification('Lütfen geçerli bir e-posta adresi girin.', 'error');
+                }
+            });
+
+            // Enhanced view switching functionality
+            const viewButtons = document.querySelectorAll('.view-btn');
+            const viewContents = document.querySelectorAll('.view-content');
+            const container = document.querySelector('.coming-soon-container');
+
+            viewButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const viewId = button.getAttribute('data-view');
+                    
+                    // Remove active class from all buttons and contents
+                    viewButtons.forEach(btn => btn.classList.remove('active'));
+                    viewContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Add active class to clicked button and corresponding content
+                    button.classList.add('active');
+                    document.getElementById(`${viewId}-view`).classList.add('active');
+
+                    // Toggle container size based on view
+                    if (viewId === 'preview') {
+                        container.classList.add('expanded');
+                    } else {
+                        container.classList.remove('expanded');
+                    }
+                });
+            });
+
+            // DEX Status functionality
+            document.addEventListener('DOMContentLoaded', function() {
+                // View button now works as a link (defined in HTML)
+                
+                // Refresh button functionality
+                const refreshBtn = document.getElementById('refreshBtn');
+                refreshBtn.addEventListener('click', function() {
+                    // Show loading state
+                    this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+                    
+                    // Simulate fetching data from external source
+                    setTimeout(() => {
+                        fetchDEXStatus();
+                        this.innerHTML = '<i class="fas fa-sync-alt"></i> Refresh';
+                        
+                        // Show notification
+                        showNotification('DEX status refreshed successfully!');
+                    }, 1500);
+                });
+                
+                // Function to fetch DEX status from external source
+                function fetchDEXStatus() {
+                    // This would typically be an API call to get real data
+                    // For demo purposes, we're using mock data
+                    const mockData = {
+                        status: Math.random() > 0.5 ? 'PAID' : 'NOT PAID',
+                        network: 'Solana',
+                        contractType: 'DEX',
+                        lastUpdated: new Date().toLocaleTimeString()
+                    };
+                    
+                    updateDEXStatus(mockData);
+                }
+                
+                // Function to update the UI with DEX status
+                function updateDEXStatus(data) {
+                    const statusIndicator = document.querySelector('.status-indicator');
+                    const networkSpan = document.querySelector('.status-item:nth-child(1) span:last-child');
+                    const contractTypeSpan = document.querySelector('.status-item:nth-child(2) span:last-child');
+                    const lastUpdatedSpan = document.querySelector('.status-item:nth-child(3) span:last-child');
+                    
+                    // Update status indicator
+                    statusIndicator.innerHTML = `<i class="fas ${data.status === 'PAID' ? 'fa-check-circle' : 'fa-clock'}"></i> ${data.status}`;
+                    if (data.status === 'PAID') {
+                        statusIndicator.classList.add('paid');
+                    } else {
+                        statusIndicator.classList.remove('paid');
+                    }
+                    
+                    // Update other details
+                    networkSpan.textContent = data.network;
+                    contractTypeSpan.textContent = data.contractType;
+                    lastUpdatedSpan.textContent = data.lastUpdated;
+                    
+                    // Update the view button link with the contract address if available
+                    const viewBtn = document.getElementById('viewBtn');
+                    if (data.contractAddress) {
+                        viewBtn.href = `https://explorer.solana.com/address/${data.contractAddress}`;
+                    }
+                }
+            });
+        });
+    </script>
+    <script src="js/countdown.js"></script>
+</body>
+</html>

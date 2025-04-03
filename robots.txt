@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Sitemap: https://mwuseuwm.space/sitemap.xml
+
+# Disallow admin ve özel sayfalar
+Disallow: /admin/
+Disallow: /private/
+Disallow: /temp/
+Disallow: /test/ 
